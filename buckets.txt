@@ -1,0 +1,159 @@
+noaa-goes16
+- bank-statement-*
+- *-payment-*
+- *-merchant-*
+- ach-processing-*
+- *-transaction-log
+- *-pos-data
+- eft-records-*
+- *-wire-transfer-*
+- *-cardholder-data
+- pci-* (PCI DSS compliance data)
+- *-settlement-*
+- *-chargeback-*
+- *-interchange-*
+Credit Card and BIN Specific Patterns:
+text
+- *-bin-*
+- *-iin-* (Issuer Identification Number)
+- *-card-range-*
+- *-dump-* (less common but occasionally present)
+- *-track-data-*
+- *-magstripe-*
+- *-emboss-*
+- *-cvv-*
+- *-authorization-*
+- *-clearing-*
+Financial Application and Service Names:
+text
+- *-finacle-* (banking software)
+- *-flexcube-* (Oracle banking system)
+- *-t24-* (Temenos core banking)
+- *-fiserv-*
+- *-fis-*
+- *-jackhenry-*
+- *-payments-*
+- *-payrail-*
+- *-paytrace-*
+2. Geographic and Institutional Targeting
+Specific financial institutions and geographic regions present higher-value targets based on their market position and historical security practices.
+Major U.S. Regional Banks (often with less mature cloud security):
+text
+- regions-bank-*
+- fifththird-*
+- pnc-*
+- suntrust-* (now Truist)
+- keybank-*
+- citizensbank-*
+- huntington-*
+- m-and-t-*
+Credit Unions (frequently exposed in past incidents):
+text
+- *-credit-union-*
+- *-cu-*
+- *-federal-credit-*
+- *-teachers-credit-*
+- *-schools-credit-*
+- *-employees-credit-*
+International Banking Targets:
+text
+- *-santander-*
+- *-hsbc-*
+- *-barclays-*
+- *-lloyds-*
+- *-deutschebank-*
+- *-societegenerale-*
+- *-bnpparibas-*
+3. Technical Implementation Patterns
+Beyond simple naming, specific technical implementation details can indicate financial data storage.
+Backup and Archive Patterns:
+text
+- *-backup-financial-*
+- *-archive-payments-*
+- *-migration-carddata-*
+- *-legacy-pos-*
+- *-db-dump-* (particularly with financial database names)
+- *-sql-bak-*-financial*
+Application and Integration Specific:
+text
+- *-square-* (payment processor)
+- *-stripe-* (payment processor)
+- *-paypal-* (often integration data)
+- *-braintree-* (PayPal subsidiary)
+- *-adyen-*
+- *-worldpay-*
+- *-firstdata-*
+- *-elavon-*
+4. Temporal and Structural Indicators
+Buckets containing time-series financial data often include date patterns and hierarchical structures.
+Date-Based Financial Reporting:
+text
+- *-2024-statement-*
+- *-q1-2024-*
+- *-month-end-*
+- *-daily-recon-*
+- *-year-end-*
+- *-fiscal-*
+Departmental and Functional Structures:
+text
+- *-accounting-*
+- *-treasury-*
+- *-reconciliation-*
+- *-compliance-*
+- *-audit-*
+- *-finance-ops-*
+- *-ap-* (accounts payable)
+- *-ar-* (accounts receivable)
+- *-gl-* (general ledger)
+High-Probability Target Bucket Names
+Based on the above heuristics, here is a curated list of bucket naming patterns to prioritize in your buckets.txt file:
+Tier 1: Direct Financial Data Indicators
+text
+payment-processing-backup
+merchant-transaction-logs
+ach-file-processing
+wire-transfer-records
+cardholder-data-storage
+bin-range-database
+iin-repository
+pos-terminal-dumps
+financial-archive-2024
+bank-statement-repository
+Tier 2: Banking Institution Specific
+text
+regions-bank-backup
+fifththird-ach-files
+pnc-financial-data
+suntrust-migration
+keybank-statements
+citizensbank-archive
+huntington-payments
+mtb-corporate-data
+Tier 3: Payment Processor Integration
+text
+square-transaction-export
+stripe-webhook-logs
+paypal-ipn-data
+braintree-customer-vault
+adyen-settlement-files
+worldpay-authorizations
+firstdata-batch-processing
+elavon-merchant-data
+Tier 4: Credit Union and Regional Targets
+text
+navy-federal-credit-union
+penfed-digital-backup
+state-employees-credit
+schools-first-fcu
+alliant-credit-union
+redstone-fcu-data
+desert-financial-backup
+Tier 5: International Financial Institutions
+text
+santander-corporate-banking
+hsbc-global-transactions
+barclays-merchant-services
+lloyds-business-banking
+deutschebank-archive
+bnpparibas-operations
+societegenerale-data

@@ -1,3 +1,28 @@
 .env
 __pycache__/
 *.pyc
+
+# Download folders produced by s4.py and helpers
+downloads/
+downloads_* 
+smoke_downloads_100/
+downloads_finance/
+
+# Subset and listing artifacts
+subset*.txt
+listing*.txt
+
+# Large/binary file types to avoid checking in
+*.nc
+*.tar
+*.zip
+*.7z
+*.gz
+*.bz2
+*.xz
+*.bak
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+

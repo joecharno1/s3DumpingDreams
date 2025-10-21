@@ -34,6 +34,45 @@ from typing import Iterable, List, Sequence
 
 import requests
 
+
+def load_dotenv(path: Path) -> None:
+    """Load simple KEY=VALUE pairs from a .env file into os.environ when not set.
+
+    This intentionally implements a minimal subset of dotenv semantics: lines
+    beginning with # are ignored, and values may be quoted. Existing
+    environment variables are not overwritten.
+    """
+    if not path.exists():
+        return
+
+    for raw in path.read_text().splitlines():
+        line = raw.strip()
+        if not line or line.startswith("#"):
+            continue
+        if "=" not in line:
+            continue
+        key, val = line.split("=", 1)
+        key = key.strip()
+        val = val.strip()
+        if (val.startswith('"') and val.endswith('"')) or (
+            val.startswith("'") and val.endswith("'")
+        ):
+            val = val[1:-1]
+        # Only set if not already present in the environment.
+        os.environ.setdefault(key, val)
+
+
+# Attempt to load a local .env from the repository root so callers may place
+# their API key in a file named `.env` during development. This will not
+# overwrite existing environment variables.
+try:
+    repo_root = Path(__file__).resolve().parent
+    load_dotenv(repo_root / ".env")
+except Exception:
+    # Be defensive: loading .env should never stop the program. If something
+    # goes wrong just continue with environment variables as-is.
+    pass
+
 DEFAULT_ENDPOINT = "https://buckets.grayhatwarfare.com/api/v1/buckets"
 DEFAULT_TOKEN_PARAM = "access_token"
 DEFAULT_PAGE_PARAM = "page"
@@ -50,7 +89,7 @@ def parse_args(argv: Sequence[str]) -> argparse.Namespace:
     )
     parser.add_argument(
         "--api-key",
-        default=os.getenv("GRAYHAT_API_KEY"),
+        default=None,
         help=(
             "API key used to authenticate against Grayhat Warfare. You can also "
             "set the GRAYHAT_API_KEY environment variable."
@@ -257,7 +296,16 @@ def emit_java_file(buckets: Sequence[str], java_target: Path) -> None:
 
 
 def main(argv: Sequence[str] | None = None) -> int:
-    args = parse_args(argv or sys.argv[1:])
+    # If argv is None the program is being run from the CLI; consult the
+    # process environment in that case. If argv is provided (e.g. tests call
+    # main([...])) do not read environment variables so tests can assert the
+    # missing-key behavior reliably.
+    if argv is None:
+        args = parse_args(sys.argv[1:])
+        if args.api_key is None:
+            args.api_key = os.getenv("GRAYHAT_API_KEY")
+    else:
+        args = parse_args(argv)
     args.api_key = raise_if_missing_api_key(args.api_key)
 
     all_new_buckets: List[str] = []

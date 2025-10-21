@@ -1,0 +1,20 @@
+noaa-goes16
+- bank-statement-*
+- *-payment-*
+- *-merchant-*
+- ach-processing-*
+- *-transaction-log
+- *-pos-data
+- eft-records-*
+- *-wire-transfer-*
+- *-cardholder-data
+- pci-* (PCI DSS compliance data)
+- *-settlement-*
+- *-chargeback-*
+- *-interchange-*
+Credit Card and BIN Specific Patterns:
+text
+- *-bin-*
+- *-iin-* (Issuer Identification Number)
+- *-card-range-*
+- *-dump-* (less common but occasionally present)
